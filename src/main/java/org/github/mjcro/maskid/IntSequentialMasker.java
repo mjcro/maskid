@@ -4,20 +4,20 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * {@link Masker} implementation that sequentially runs all given
+ * {@link IntMasker} implementation that sequentially runs all given
  * in constructor maskers.
  */
-public class Sequential implements Masker {
-    private final Masker[] maskers;
+public class IntSequentialMasker implements IntMasker {
+    private final IntMasker[] maskers;
 
     /**
      * Constructs sequential masker.
      *
      * @param maskers Maskers to use.
      */
-    public Sequential(final Collection<Masker> maskers) {
+    public IntSequentialMasker(final Collection<IntMasker> maskers) {
         Objects.requireNonNull(maskers, "maskers");
-        this.maskers = maskers.stream().toArray(Masker[]::new);
+        this.maskers = maskers.stream().toArray(IntMasker[]::new);
     }
 
     /**
@@ -25,25 +25,25 @@ public class Sequential implements Masker {
      *
      * @param maskers Maskers to use.
      */
-    public Sequential(final Masker... maskers) {
+    public IntSequentialMasker(final IntMasker... maskers) {
         Objects.requireNonNull(maskers, "maskers");
         this.maskers = maskers;
     }
 
     @Override
-    public long mask(final long value) {
-        long masked = value;
-        for (final Masker masker : maskers) {
-            masked = masker.mask(masked);
+    public int maskInt(final int value) {
+        int masked = value;
+        for (final IntMasker masker : maskers) {
+            masked = masker.maskInt(masked);
         }
         return masked;
     }
 
     @Override
-    public long unmask(final long value) {
-        long unmasked = value;
+    public int unmaskInt(final int value) {
+        int unmasked = value;
         for (int i = maskers.length - 1; i >= 0; i--) {
-            unmasked = maskers[i].unmask(unmasked);
+            unmasked = maskers[i].unmaskInt(unmasked);
         }
         return unmasked;
     }
