@@ -1,27 +1,58 @@
 package org.github.mjcro.maskid;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Random;
 
 public class BitShuffler implements Masker {
     private final byte[] masking;
     private final byte[] unmasking;
 
-    public BitShuffler() {
-        this(DEFAULT);
+    public static BitShuffler ofRandomSeed(final long seed) {
+        return ofRandom(new Random(seed));
     }
 
-    public BitShuffler(final byte[] masking) {
-        if (masking == null) {
-            throw new NullPointerException("masking");
+    public static BitShuffler ofRandom(final Random random) {
+        Objects.requireNonNull(random, "random");
+
+        ArrayList<Integer> randomized = new ArrayList<>();
+        for (int i = 0; i < 64; i++) {
+            randomized.add(i, i);
         }
-        if (masking.length != 64) {
-            throw new IllegalArgumentException("Masking rules array should have exact 64 positions");
+        Collections.shuffle(randomized, random);
+
+        byte[] matrix = new byte[64];
+        for (int i = 0; i < 64; i++) {
+            matrix[i] = randomized.get(i).byteValue();
         }
 
-        this.masking = masking;
+        return new BitShuffler(matrix);
+    }
+
+    public BitShuffler() {
+        this(DEFAULT, false);
+    }
+
+    public BitShuffler(final byte[] maskingMatrix) {
+        this(maskingMatrix, true);
+    }
+
+    private BitShuffler(final byte[] maskingMatrix, final boolean verify) {
+        if (verify) {
+            if (maskingMatrix == null) {
+                throw new NullPointerException("maskingMatrix");
+            }
+            if (maskingMatrix.length != 64) {
+                throw new IllegalArgumentException("Masking matrix should have exact 64 positions");
+            }
+        }
+
+        this.masking = maskingMatrix;
         this.unmasking = new byte[64];
-        for (int i=0; i < 64; i++) {
+        for (int i = 0; i < 64; i++) {
             this.unmasking[this.masking[i]] = (byte) i;
         }
     }
@@ -45,7 +76,7 @@ public class BitShuffler implements Masker {
         BitSet sourceBitSet = BitSet.valueOf(sourceBuffer.array());
         BitSet resultBitSet = new BitSet(64);
 
-        for (int i=0; i < 64; i++) {
+        for (int i = 0; i < 64; i++) {
             resultBitSet.set(matrix[i], sourceBitSet.get(i));
         }
 
