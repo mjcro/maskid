@@ -4,13 +4,13 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * Decorator over {@link Masker} which allows to mask data
+ * Decorator over {@link LongMasker} which allows masking data
  * into any type (String for example)
  *
  * @param <T> Masking type.
  */
-public class MaskerDecorator<T> {
-    private final Masker masker;
+public class LongMaskerDecorator<T> {
+    private final LongMasker masker;
     private final Function<Long, T> maskConverter;
     private final Function<T, Long> unmaskConverter;
 
@@ -21,8 +21,8 @@ public class MaskerDecorator<T> {
      * @param maskConverter   Function to map long values into desired custom type.
      * @param unmaskConverter Function to map custom type into long.
      */
-    public MaskerDecorator(
-            final Masker masker,
+    public LongMaskerDecorator(
+            final LongMasker masker,
             final Function<Long, T> maskConverter,
             final Function<T, Long> unmaskConverter
     ) {
@@ -32,10 +32,10 @@ public class MaskerDecorator<T> {
     }
 
     public T mask(final long value) {
-        return maskConverter.apply(masker.mask(value));
+        return maskConverter.apply(masker.maskLong(value));
     }
 
     public long unmask(final T value) {
-        return masker.unmask(unmaskConverter.apply(value));
+        return masker.unmaskLong(unmaskConverter.apply(value));
     }
 }
