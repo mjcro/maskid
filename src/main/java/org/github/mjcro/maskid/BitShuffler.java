@@ -7,22 +7,40 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
 
-public class BitShuffler implements Masker {
+/**
+ * Masker implementation that shuffles bits of long value
+ * making result unpredictable for external observer.
+ */
+public class BitShuffler implements LongMasker {
     private final byte[] masking;
     private final byte[] unmasking;
 
+    /**
+     * Constructs bit shuffling masker using random shuffling
+     * matrix generated using given seed.
+     *
+     * @param seed Random seed.
+     * @return Masker.
+     */
     public static BitShuffler ofRandomSeed(final long seed) {
         return ofRandom(new Random(seed));
     }
 
-    public static BitShuffler ofRandom(final Random random) {
-        Objects.requireNonNull(random, "random");
+    /**
+     * Constructs bit shuffling masker using random shuffling
+     * matrix generated using given random number generator.
+     *
+     * @param rng Random number generator.
+     * @return Masker.
+     */
+    public static BitShuffler ofRandom(final Random rng) {
+        Objects.requireNonNull(rng, "rng");
 
         ArrayList<Integer> randomized = new ArrayList<>();
         for (int i = 0; i < 64; i++) {
             randomized.add(i, i);
         }
-        Collections.shuffle(randomized, random);
+        Collections.shuffle(randomized, rng);
 
         byte[] matrix = new byte[64];
         for (int i = 0; i < 64; i++) {
@@ -57,11 +75,11 @@ public class BitShuffler implements Masker {
         }
     }
 
-    public long mask(final long value) {
+    public long maskLong(final long value) {
         return transform(value, masking);
     }
 
-    public long unmask(final long value) {
+    public long unmaskLong(final long value) {
         return transform(value, unmasking);
     }
 
