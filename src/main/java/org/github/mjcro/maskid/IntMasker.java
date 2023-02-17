@@ -4,7 +4,7 @@ package org.github.mjcro.maskid;
  * Defines transformers able to perform reversible int32 (Java int)
  * transformations (masking)
  */
-public interface IntMasker {
+public interface IntMasker extends IntMaskerFactory {
     /**
      * Performs masking (reversible identifier transformation).
      *
@@ -20,4 +20,9 @@ public interface IntMasker {
      * @return Original value.
      */
     int unmaskInt(int value);
+
+    @Override
+    default IntMasker getIntMasker() {
+        return this;
+    }
 }

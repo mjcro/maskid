@@ -4,7 +4,7 @@ package org.github.mjcro.maskid;
  * Defines transformers able to perform reversible int64 (Java long)
  * transformations (masking)
  */
-public interface LongMasker {
+public interface LongMasker extends LongMaskerFactory {
     /**
      * Performs masking (reversible identifier transformation).
      *
@@ -20,4 +20,9 @@ public interface LongMasker {
      * @return Original value.
      */
     long unmaskLong(long value);
+
+    @Override
+    default LongMasker getLongMasker() {
+        return this;
+    }
 }
