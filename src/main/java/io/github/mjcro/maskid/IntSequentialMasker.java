@@ -1,4 +1,4 @@
-package org.github.mjcro.maskid;
+package io.github.mjcro.maskid;
 
 import java.util.Collection;
 import java.util.Objects;
