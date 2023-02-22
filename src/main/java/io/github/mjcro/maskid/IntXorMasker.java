@@ -1,22 +1,22 @@
-package org.github.mjcro.maskid;
+package io.github.mjcro.maskid;
 
 /**
  * Performs value masking using XOR operation.
  */
-public class LongXorMasker implements LongMasker {
-    private final long xorSecret;
+public class IntXorMasker implements IntMasker {
+    private final int xorSecret;
 
-    public LongXorMasker(final long xorSecret) {
+    public IntXorMasker(final int xorSecret) {
         this.xorSecret = xorSecret;
     }
 
     @Override
-    public long maskLong(final long value) {
+    public int maskInt(final int value) {
         return value ^ xorSecret;
     }
 
     @Override
-    public long unmaskLong(final long value) {
+    public int unmaskInt(final int value) {
         return value ^ xorSecret;
     }
 
