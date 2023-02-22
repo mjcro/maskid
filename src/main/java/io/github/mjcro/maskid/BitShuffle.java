@@ -1,4 +1,4 @@
-package org.github.mjcro.maskid;
+package io.github.mjcro.maskid;
 
 import java.nio.ByteBuffer;
 import java.util.BitSet;
