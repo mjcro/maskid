@@ -1,4 +1,4 @@
-package org.github.mjcro.maskid;
+package io.github.mjcro.maskid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,16 +8,16 @@ import java.util.stream.Collectors;
  * Masker implementation that works over small set of
  * values covered by dictionary.
  */
-public class LongDictionary implements LongMasker {
-    private final HashMap<Long, Long> matrix;
-    private final HashMap<Long, Long> reverse;
+public class IntDictionary implements IntMasker {
+    private final HashMap<Integer, Integer> matrix;
+    private final HashMap<Integer, Integer> reverse;
 
     /**
      * Constructs new dictionary masker.
      *
      * @param dictionary Dictionary to use.
      */
-    public LongDictionary(final Map<Long, Long> dictionary) {
+    public IntDictionary(final Map<Integer, Integer> dictionary) {
         if (dictionary == null || dictionary.isEmpty()) {
             throw new IllegalArgumentException("Empty dictionary");
         }
@@ -36,8 +36,8 @@ public class LongDictionary implements LongMasker {
     }
 
     @Override
-    public long maskLong(final long value) {
-        Long masked = matrix.get(value);
+    public int maskInt(final int value) {
+        Integer masked = matrix.get(value);
         if (masked == null) {
             throw new IndexOutOfBoundsException("No forward mapping for " + value);
         }
@@ -45,8 +45,8 @@ public class LongDictionary implements LongMasker {
     }
 
     @Override
-    public long unmaskLong(final long value) {
-        Long unmasked = reverse.get(value);
+    public int unmaskInt(final int value) {
+        Integer unmasked = reverse.get(value);
         if (unmasked == null) {
             throw new IndexOutOfBoundsException("No reverse mapping for " + value);
         }
