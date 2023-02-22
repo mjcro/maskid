@@ -1,6 +1,8 @@
 Mask ID
 -------
 
+![Java 8](https://img.shields.io/badge/Java-8-blue?style=flat-square)
+
 This micro library aims to provide a solution to hide (mask) incremental identifiers
 from external observer without additional database expenses.
 
@@ -28,9 +30,10 @@ made using this library is not cryptography and not 100% bullet-proof.
 
 ### Available maskers
 
-|   **Type**   |         **Integer**         |          **Long**           | **Description**                                                                     |
-|:------------:|:---------------------------:|:---------------------------:|-------------------------------------------------------------------------------------|
-| Arithmetical | `MultiplicationShiftMasker` | `MultiplicationShiftMasker` | Generates masked value using multiplication and addition                            |
-|   Logical    |       `IntXorMasker`        |       `LongXorMasker`       | Generates masked value using XOR operation over secret value                        |
-|   Shuffle    |                             |        `BitShuffler`        | Generates masked value using bitwise shuffling                                      |
-|   Combine    |    `IntSequentialMasker`    |   `LongSequentialMasker`    | Generates masked value sequentially invoking other maskers provided in constructor  |
+|   **Type**   |         **Integer**         |          **Long**           | **Description**                                                                    |
+|:------------:|:---------------------------:|:---------------------------:|------------------------------------------------------------------------------------|
+| Arithmetical | `MultiplicationShiftMasker` | `MultiplicationShiftMasker` | Generates masked value using multiplication and addition                           |
+|   Logical    |       `IntXorMasker`        |       `LongXorMasker`       | Generates masked value using XOR operation over secret value                       |
+|   Shuffle    |    `IntBitShuffleMasker`    |   `LongBitShuffleMasker`    | Generates masked value using bitwise shuffling                                     |
+|  Dictionary  |       `IntDictionary`       |      `LongDictionary`       | Generates masked value using fixed size dictionary                                 |
+|   Combine    |    `IntSequentialMasker`    |   `LongSequentialMasker`    | Generates masked value sequentially invoking other maskers provided in constructor |

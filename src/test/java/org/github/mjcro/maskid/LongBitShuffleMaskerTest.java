@@ -4,32 +4,32 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class BitShuffleMaskerTest {
+public class LongBitShuffleMaskerTest {
     @Test(expectedExceptions = NullPointerException.class)
     public void testVerifyNull() {
-        new BitShuffleMasker(null);
+        new LongBitShuffleMasker(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testVerifySizeLow() {
-        new BitShuffleMasker(new byte[63]);
+        new LongBitShuffleMasker(new byte[63]);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testVerifySizeHigh() {
-        new BitShuffleMasker(new byte[65]);
+        new LongBitShuffleMasker(new byte[65]);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testVerifyInvalidOffset() {
         byte[] matrix = new byte[64];
         matrix[0] = 64;
-        new BitShuffleMasker(matrix);
+        new LongBitShuffleMasker(matrix);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testVerifyUnique() {
-        new BitShuffleMasker(new byte[64]);
+        new LongBitShuffleMasker(new byte[64]);
     }
 
     @DataProvider
@@ -52,7 +52,7 @@ public class BitShuffleMaskerTest {
 
     @Test(dataProvider = "dataProviderRandomSetOne")
     public void testRandomSetOneMasking(final long given, final long expected) {
-        LongMasker m = BitShuffleMasker.randomSetOne();
+        LongMasker m = LongBitShuffleMasker.randomSetOne();
         Assert.assertEquals(m.maskLong(given), expected);
         Assert.assertEquals(m.unmaskLong(expected), given);
     }
@@ -79,7 +79,7 @@ public class BitShuffleMaskerTest {
 
     @Test(dataProvider = "dataProviderReverse")
     public void testReverseMasking(final long given, final long expected) {
-        LongMasker m = BitShuffleMasker.reverse();
+        LongMasker m = LongBitShuffleMasker.reverse();
 
         Assert.assertEquals(m.maskLong(given), expected);
         Assert.assertEquals(m.unmaskLong(expected), given);
